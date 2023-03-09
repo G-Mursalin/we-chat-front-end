@@ -56,6 +56,7 @@ p.error {
 input {
   background: var(--tertiary);
   outline: none;
+  width: 100%;
   padding: 15px;
   border: 1px solid var(--dark);
   color: #fff;
@@ -69,7 +70,7 @@ input.error {
 
 input[type="submit"] {
   margin: 2rem auto;
-  width: 200px;
+  width: 50%;
   background: linear-gradient(to right, var(--green), var(--blue));
   cursor: pointer;
   font-weight: 600;

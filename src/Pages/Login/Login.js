@@ -24,7 +24,7 @@ const Login = () => {
           />
           <p className="error show">Error message here</p>
           <input type="password" name="password" placeholder="enter password" />
-          <input type="submit" value="Login" />
+          <input className="btn-submit" type="submit" value="Login" />
         </form>
       </div>
     </div>

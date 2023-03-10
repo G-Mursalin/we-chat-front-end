@@ -16,7 +16,7 @@ const Login = () => {
         <h1>Login</h1>
       </div>
       <div id="login-form">
-        <form method="post" onSubmit={handleLogin}>
+        <form onSubmit={handleLogin}>
           <input
             type="text"
             name="username"

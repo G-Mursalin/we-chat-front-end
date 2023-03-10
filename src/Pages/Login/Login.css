@@ -37,10 +37,6 @@
   color: var(--light);
 }
 
-#branding img {
-  width: 100px;
-}
-
 /* Form style */
 #login-form {
   padding: 2rem;

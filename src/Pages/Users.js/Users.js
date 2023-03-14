@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Users.css";
-import user1 from "./../../assets/images/user1.png";
 import trash from "./../../assets/images/trash.png";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
+import { toast } from "react-hot-toast";
 
 const Users = () => {
   const [showModal, setShowModal] = useState(false);
@@ -13,16 +13,21 @@ const Users = () => {
   );
 
   // Handle Delete User
-  const handleDelete = (id) => {
+  const handleDelete = (id, imgURL) => {
     fetch(`http://localhost:5000/api/v1/users/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
-      .then((data) => {
-        refetch();
+      .then((result) => {
+        if (result.status === "fail") {
+          toast.error(result.message);
+        } else {
+          toast.success(result.status);
+          refetch();
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        toast.error(error.message);
       });
   };
 
@@ -49,11 +54,16 @@ const Users = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        refetch();
-        setShowModal(false);
+        if (result.status === "fail") {
+          toast.error(result.message);
+        } else {
+          toast.success(result.status);
+          refetch();
+          setShowModal(false);
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        toast.error(error.message);
       });
   };
   if (isLoading) return <p>Loading...</p>;
@@ -88,7 +98,10 @@ const Users = () => {
                     <span>{val.name}</span>
                   </td>
                   <td>{val.email}</td>
-                  <td onClick={() => handleDelete(val._id)} className="manage">
+                  <td
+                    onClick={() => handleDelete(val._id, val.imgURL)}
+                    className="manage"
+                  >
                     <img src={trash} alt="Delete" />
                   </td>
                 </tr>
@@ -114,16 +127,36 @@ const Users = () => {
             </div>
             <div onSubmit={handleUserSubmit} className="modal-body">
               <form id="add-user-form">
-                <input type="text" placeholder="enter name" name="name" />
-                <p className="error show">This is error</p>
-                <input type="text" placeholder="enter email" name="email" />
-                <input type="text" placeholder="enter mobile" name="mobile" />
+                <input
+                  type="text"
+                  required
+                  placeholder="enter name"
+                  name="name"
+                />
+                <input
+                  type="text"
+                  required
+                  placeholder="enter email"
+                  name="email"
+                />
+                <input
+                  type="text"
+                  required
+                  placeholder="enter mobile"
+                  name="mobile"
+                />
                 <input
                   type="password"
+                  required
                   placeholder="enter password"
                   name="password"
                 />
-                <input type="file" name="avatar" accept=".jpg, .jpeg, .png" />
+                <input
+                  type="file"
+                  required
+                  name="avatar"
+                  accept=".jpg, .jpeg, .png"
+                />
                 <input type="submit" value="Submit" />
               </form>
             </div>
